@@ -1,0 +1,41 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.17/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.17",
+  "version": "1.0.0",
+  "id": "${{TEAMS_APP_ID}}",
+  "developer": {
+    "name": "Teams Voice",
+    "websiteUrl": "https://${{TAB_DOMAIN}}",
+    "privacyUrl": "https://${{TAB_DOMAIN}}/privacy.html",
+    "termsOfUseUrl": "https://${{TAB_DOMAIN}}/terms.html"
+  },
+  "name": {
+    "short": "Voice Echo",
+    "full": "Voice Echo - hands-free voice mode"
+  },
+  "description": {
+    "short": "Voice-only mode that speaks back what you say.",
+    "full": "A voice-only experience similar to ChatGPT / Gemini voice mode. Talk and the app speaks your words back. Start talking again at any time to interrupt it."
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "accentColor": "#4F52B2",
+  "staticTabs": [
+    {
+      "entityId": "voice",
+      "name": "Voice",
+      "contentUrl": "https://${{TAB_DOMAIN}}/index.html",
+      "websiteUrl": "https://${{TAB_DOMAIN}}/index.html",
+      "scopes": ["personal"]
+    },
+    {
+      "entityId": "about",
+      "scopes": ["personal"]
+    }
+  ],
+  "permissions": ["identity"],
+  "devicePermissions": ["media"],
+  "validDomains": ["${{TAB_DOMAIN}}"]
+}

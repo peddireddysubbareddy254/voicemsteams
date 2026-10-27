@@ -1,0 +1,257 @@
+.voice {
+  --bg: #0b0b12;
+  --fg: #f4f4f8;
+  --muted: #9a9ab0;
+  --ctrl: #23232f;
+  --accent-1: #7b83eb;
+  --accent-2: #4f52b2;
+  --accent-3: #c3b5ff;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(ellipse at 50% 35%, #1a1a2e 0%, var(--bg) 70%);
+  color: var(--fg);
+  overflow: hidden;
+  user-select: none;
+}
+
+.voice.theme-light {
+  --bg: #f5f5fb;
+  --fg: #1b1b2b;
+  --muted: #61617a;
+  --ctrl: #e4e4f0;
+  background: radial-gradient(ellipse at 50% 35%, #ffffff 0%, var(--bg) 70%);
+}
+
+.voice.theme-contrast {
+  --bg: #000;
+  --fg: #fff;
+  --muted: #ffff00;
+  --ctrl: #000;
+  --accent-1: #ffff00;
+  --accent-2: #1aebff;
+  --accent-3: #fff;
+  background: #000;
+}
+
+.stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(8px, 2.5vh, 20px);
+  min-height: 0;
+  padding: 16px 24px 0;
+}
+
+/* ---------- Orb ---------- */
+.orb {
+  --scale: 1;
+  position: relative;
+  width: clamp(120px, min(42vw, 38vh), 240px);
+  aspect-ratio: 1;
+  border: none;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: 50%;
+  transform: scale(var(--scale));
+  transition: transform 90ms linear;
+}
+
+.orb:focus-visible {
+  outline: 3px solid var(--accent-3);
+  outline-offset: 8px;
+}
+
+.orb-core,
+.orb-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+
+.orb-core {
+  background: conic-gradient(from 0deg, var(--accent-1), var(--accent-2), var(--accent-3), var(--accent-1));
+  animation: spin 8s linear infinite;
+  filter: saturate(1.1);
+}
+
+.orb-core::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.55), transparent 55%);
+}
+
+.orb-glow {
+  background: var(--accent-1);
+  filter: blur(40px);
+  opacity: 0.35;
+  transform: scale(1.1);
+}
+
+.orb-idle .orb-core {
+  animation: spin 20s linear infinite, breathe 4s ease-in-out infinite;
+  opacity: 0.85;
+}
+
+.orb-connecting .orb-core {
+  animation: spin 1.2s linear infinite;
+  opacity: 0.7;
+}
+
+.orb-listening .orb-glow {
+  opacity: 0.6;
+}
+
+.orb-speaking .orb-core {
+  animation: spin 3s linear infinite, talk 0.9s ease-in-out infinite;
+}
+
+.orb-speaking .orb-glow {
+  opacity: 0.75;
+  animation: talk 0.9s ease-in-out infinite;
+}
+
+.orb-error .orb-core {
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+
+.bars {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.bars i {
+  width: 10px;
+  height: 22%;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.92);
+  animation: bar 0.8s ease-in-out infinite;
+}
+
+.bars i:nth-child(2) { animation-delay: 0.15s; }
+.bars i:nth-child(3) { animation-delay: 0.3s; }
+.bars i:nth-child(4) { animation-delay: 0.45s; }
+
+@keyframes spin {
+  to { rotate: 360deg; }
+}
+
+@keyframes breathe {
+  50% { scale: 0.94; }
+}
+
+@keyframes talk {
+  50% { scale: 1.06; }
+}
+
+@keyframes bar {
+  50% { height: 48%; }
+}
+
+/* ---------- Text ---------- */
+.status {
+  margin: 12px 0 0;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+
+.caption {
+  margin: 0;
+  max-width: 640px;
+  min-height: 1.4em;
+  font-size: clamp(18px, 3.2vmin, 26px);
+  line-height: 1.4;
+  text-align: center;
+  font-weight: 500;
+}
+
+.caption-live {
+  opacity: 0.7;
+}
+
+.caption-error {
+  color: #ff8a8a;
+  font-size: 16px;
+}
+
+.hint {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ---------- Controls ---------- */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: clamp(12px, 3vh, 24px) 24px clamp(16px, 5vh, 36px);
+}
+
+.ctrl {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  display: grid;
+  place-items: center;
+  background: var(--ctrl);
+  color: var(--fg);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.ctrl:active {
+  transform: scale(0.94);
+}
+
+.ctrl svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+.ctrl-on {
+  background: var(--accent-2);
+  color: #fff;
+}
+
+.ctrl-main {
+  width: 68px;
+  height: 68px;
+  background: var(--accent-2);
+  color: #fff;
+}
+
+.ctrl-end {
+  background: #d13438;
+}
+
+.ctrl-spacer {
+  visibility: hidden;
+}
+
+.theme-contrast .ctrl {
+  border: 2px solid var(--fg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb-core,
+  .orb-glow,
+  .bars i {
+    animation: none !important;
+  }
+}
